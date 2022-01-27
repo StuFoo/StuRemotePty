@@ -1,0 +1,109 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.0/",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.0": {},
+    ".NETStandard,Version=v2.0/": {
+      "Pty.Net/0.3.36-pre": {
+        "dependencies": {
+          "MicroBuild.VisualStudio": "2.0.55",
+          "NETStandard.Library": "2.0.3",
+          "Nerdbank.GitVersioning": "3.0.25",
+          "OSS.Sign": "1.0.0",
+          "StyleCop.Analyzers": "1.1.118"
+        },
+        "runtime": {
+          "Pty.Net.dll": {}
+        }
+      },
+      "MicroBuild/2.0.55": {
+        "dependencies": {
+          "MicroBuild.Core": "0.3.0"
+        }
+      },
+      "MicroBuild.Core/0.3.0": {},
+      "MicroBuild.VisualStudio/2.0.55": {
+        "dependencies": {
+          "MicroBuild": "2.0.55"
+        }
+      },
+      "Microsoft.NETCore.Platforms/1.1.0": {},
+      "Nerdbank.GitVersioning/3.0.25": {},
+      "NETStandard.Library/2.0.3": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "StyleCop.Analyzers/1.1.118": {},
+      "OSS.Sign/1.0.0": {
+        "runtime": {
+          "OSS.Sign.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Pty.Net/0.3.36-pre": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MicroBuild/2.0.55": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1cxNSpMT6SpSbsdS7cmVkJ7N6KURUwfZdwNUzWolnrtNV4TV8nY+bea/0V5hHHofMVj2K1D9UwIx7w9hJEoT9A==",
+      "path": "microbuild/2.0.55",
+      "hashPath": "microbuild.2.0.55.nupkg.sha512"
+    },
+    "MicroBuild.Core/0.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-71NxN8xP8+n08w7XuEOpbzuerL45QRodeLfrjs51qCT8LbjARyfPEcSE30YqLjFtFl3km5eH5Oaqnq2p1hQbAw==",
+      "path": "microbuild.core/0.3.0",
+      "hashPath": "microbuild.core.0.3.0.nupkg.sha512"
+    },
+    "MicroBuild.VisualStudio/2.0.55": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sTHSXlgvNmtGOus1prRs0WvrFrH/xlxm3btnRAx0ef4SA8RpH3ZPsP9GdnhbX0SEHYcnELcODcyAN37wQ779Hw==",
+      "path": "microbuild.visualstudio/2.0.55",
+      "hashPath": "microbuild.visualstudio.2.0.55.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Platforms/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "path": "microsoft.netcore.platforms/1.1.0",
+      "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
+    },
+    "Nerdbank.GitVersioning/3.0.25": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XHpul0zWJvaRL06fOJtGTim9sD9q1CbO8DnrSJGr6pjMcpVGRtDcLgcYycseGPKmOZeRmrzdR6gZihE3naHMwQ==",
+      "path": "nerdbank.gitversioning/3.0.25",
+      "hashPath": "nerdbank.gitversioning.3.0.25.nupkg.sha512"
+    },
+    "NETStandard.Library/2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
+      "path": "netstandard.library/2.0.3",
+      "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    },
+    "StyleCop.Analyzers/1.1.118": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Onx6ovGSqXSK07n/0eM3ZusiNdB6cIlJdabQhWGgJp3Vooy9AaLS/tigeybOJAobqbtggTamoWndz72JscZBvw==",
+      "path": "stylecop.analyzers/1.1.118",
+      "hashPath": "stylecop.analyzers.1.1.118.nupkg.sha512"
+    },
+    "OSS.Sign/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
