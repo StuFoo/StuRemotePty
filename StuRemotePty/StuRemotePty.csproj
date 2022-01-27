@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Google.Protobuf" Version="3.19.1" />
+		<PackageReference Include="Grpc" Version="2.41.1" />
+		<PackageReference Include="Vanara.PInvoke.Kernel32" Version="2.3.6" />
+		<PackageReference Include="Grpc.Tools" Version="2.41.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="./**/*.proto" ProtoRoot="." CompileOutputs="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Protobuf Include="Server\MessageDefine.proto" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Pty.Net">
+			<HintPath>vs-pty.net\x64\Pty.Net.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="vs-pty.net\x64\os64\**\*">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>os64\%(FileName)%(Extension)</TargetPath>
+		</None>
+		<None Update="vs-pty.net\x64\winpty\**\*">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>%(FileName)%(Extension)</TargetPath>
+		</None>
+	</ItemGroup>
+
+</Project>

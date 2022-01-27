@@ -1,0 +1,19 @@
+syntax = "proto3";
+package StuRemotePtyMessage;
+option csharp_namespace = "StuRemotePtyMessage";
+
+
+service RemotePtyService
+{
+	  rpc CustomInteraction(stream SteamChar)returns(stream ReplayData){}
+}
+
+message SteamChar
+{
+	int32 key = 1;
+}
+
+message ReplayData
+{
+	string content = 1;
+}
