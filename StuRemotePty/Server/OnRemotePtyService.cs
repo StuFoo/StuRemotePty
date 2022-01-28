@@ -10,7 +10,7 @@ using static StuRemotePtyMessage.RemotePtyService;
 
 namespace StuRemotePty
 {
-    internal class OnRemotePtyService : RemotePtyServiceBase
+    public class OnRemotePtyService : RemotePtyServiceBase
     {
         string? commandFileName;
         public OnRemotePtyService(string? commandFileName)
@@ -20,21 +20,23 @@ namespace StuRemotePty
 
         public override async Task CustomInteraction(IAsyncStreamReader<SteamChar> requestStream, IServerStreamWriter<ReplayData> responseStream, ServerCallContext context)
         {
+            TerminalCore terminalCore = null;
+            ActionBlock<string> ResponseString;
             try
             {
                 Console.WriteLine($"{context.Host} connet");
 
-                ActionBlock<string> ResponseString = new ActionBlock<string>((data) =>
-                {
-                    if (context.CancellationToken.IsCancellationRequested)
-                    {
-                        return;
-                    }
+                ResponseString = new ActionBlock<string>((data) =>
+               {
+                   if (context.CancellationToken.IsCancellationRequested)
+                   {
+                       return;
+                   }
 
-                    responseStream.WriteAsync(new ReplayData() { Content = data }).Wait();
-                });
+                   responseStream.WriteAsync(new ReplayData() { Content = data }).Wait();
+               });
 
-                TerminalCore terminalCore = new TerminalCore(ResponseString, commandFileName);
+                terminalCore = new TerminalCore(ResponseString, commandFileName);
                 while (await requestStream.MoveNext())
                 {
                     SteamChar content = requestStream.Current;
@@ -44,6 +46,10 @@ namespace StuRemotePty
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+            }
+            finally
+            {
+                terminalCore?.ShutDown();
             }
 
         }

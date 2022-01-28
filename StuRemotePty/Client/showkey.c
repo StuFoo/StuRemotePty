@@ -23,8 +23,13 @@ int InitRead()
 	if (tcgetattr(0, &old) == -1)
 		return -1;
 	new = old;
+#ifdef Test
 	new.c_lflag &= ~(ICANON | ISIG);
-	new.c_lflag |= (ECHO);
+	new.c_lflag |= (ECHO | ECHOCTL);
+#else
+	new.c_lflag &= ~(ICANON | ISIG | ECHO | ECHOCTL);
+#endif // Test
+
 	new.c_iflag = 0;
 	new.c_cc[VMIN] = 1;
 	new.c_cc[VTIME] = 0;
@@ -50,12 +55,12 @@ char ReadChar()
 }
 
 #ifdef Test
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
 	InitRead();
 	while (1)
 	{
-		char ch = Read();
+		char ch = ReadChar();
 		if (ch == -1)
 			break;
 		printf(" \t%3d 0%03o 0x%02x\n", ch, ch, ch);

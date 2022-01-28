@@ -11,5 +11,7 @@ namespace StuRemotePty.Client
         public int Init() => 0;
 
         public char Read() => Console.ReadKey(true).KeyChar;
+
+        public int CloseRead() => 0;
     }
 }

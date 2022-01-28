@@ -7,11 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StuRemotePty", "StuRemotePt
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{6CC476B1-0EE2-4DA1-9E8D-F5FB0EEDBA63}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5B98390F-12A0-4A3E-98DC-BB5550BA64E2}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteClient", "Samples\RemoteClient\RemoteClient.csproj", "{555EA55A-1831-4D33-B70E-2B516185A425}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteServer", "Samples\RemoteServer\RemoteServer.csproj", "{5C5552D4-D693-41E9-B16E-9E5792A707A5}"

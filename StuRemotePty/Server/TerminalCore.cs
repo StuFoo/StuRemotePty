@@ -14,26 +14,45 @@ namespace StuRemotePty
         string? commandFileName;
         ActionBlock<string> OutSteam { get; }
         PtyOptions ptyOptions;
+        CancellationTokenSource CancellationToken { get; set; }
+        bool IsExit;
         public TerminalCore(ActionBlock<string> outSteam, string? commandFileName = "")
         {
             Console.OutputEncoding = Encoding.UTF8;
             Console.InputEncoding = Encoding.UTF8;
             this.commandFileName = commandFileName;
             OutSteam = outSteam;
-            CreatPtyConnection();
+
+            CancellationToken = new CancellationTokenSource();
+            CreatPtyConnection().Wait();
         }
 
-        public async void CreatPtyConnection()
+        public async Task CreatPtyConnection()
         {
             SetTerminalName();
 
-            PtyConnection = await PtyProvider.SpawnAsync(ptyOptions, CancellationToken.None);
+            PtyConnection = await PtyProvider.SpawnAsync(ptyOptions, CancellationToken.Token);
+            IsExit = false;
+            CancellationToken.TryReset();
             OnData();
+            PtyConnection.ProcessExited += OnProcessExited;
         }
 
-        public void InputChat(char c)
+        public async void InputChat(char c)
         {
+            if (IsExit)
+                await CreatPtyConnection();
+
             PtyConnection.WriterStream.WriteByte((byte)c);
+        }
+
+        public void ShutDown()
+        {
+            CancellationToken.Cancel();
+
+            PtyConnection.Kill();
+            PtyConnection.WaitForExit(0);
+            PtyConnection.Dispose();
         }
 
         private void SetTerminalName()
@@ -71,15 +90,27 @@ namespace StuRemotePty
             ptyOptions.App = commandFileName;
         }
 
-        private async void OnData()
+        private void OnData()
         {
-            while (true)
+            Task.Run(async () =>
             {
-                var buff = new byte[1024];
-                int count = await PtyConnection.ReaderStream.ReadAsync(buff, 0, 1024, new CancellationTokenSource(1000).Token);
-                var data = Encoding.UTF8.GetString(buff, 0, count);
-                OutSteam.Post(data);
-            }
+                while (!CancellationToken.IsCancellationRequested)
+                {
+                    var buff = new byte[1024];
+                    int count = await PtyConnection.ReaderStream.ReadAsync(buff, 0, 1024, CancellationToken.Token);
+                    var data = Encoding.UTF8.GetString(buff, 0, count);
+                    OutSteam.Post(data);
+                    //int count = PtyConnection.ReaderStream.ReadByte();
+                    //Console.Write((char)count);
+
+                }
+            });
+        }
+
+        private void OnProcessExited(object? sender, PtyExitedEventArgs e)
+        {
+            IsExit = true;
+            CancellationToken.Cancel();
         }
     }
 }

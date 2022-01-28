@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using static StuRemotePtyMessage.RemotePtyService;
 
 namespace StuRemotePty
@@ -16,17 +17,17 @@ namespace StuRemotePty
         private Channel channel;
         Task endTask;
         IConsoInputContent consoInputContent;
-        public StuRemoteClient(string iP, int port)
+        public StuRemoteClient(string target)
         {
-            Console.OutputEncoding = Encoding.UTF8;
-            Console.InputEncoding = Encoding.UTF8;
-            IP = iP;
-            Port = port;
+            this.Target = target;
 
-            channel = new Channel(IP, Port, channelCredentials);
+            channel = new Channel(Target, channelCredentials);
             TaskCompletionSource = new CancellationTokenSource();
 
             InitConsoInputContent();
+
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.InputEncoding = Encoding.UTF8;
         }
 
         private void InitConsoInputContent()
@@ -35,6 +36,7 @@ namespace StuRemotePty
             {
                 consoInputContent = new ConsoInputContentWindows();
                 consoInputContent.Init();
+                
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
@@ -55,13 +57,13 @@ namespace StuRemotePty
              });
         }
 
-        public string IP { get; init; }
-        public int Port { get; init; }
+        public string Target { get; init; }
         public ChannelCredentials? channelCredentials { get; init; } = ChannelCredentials.Insecure;
 
         private CancellationTokenSource TaskCompletionSource;
-        public async Task Shutdowm()
+        public async Task Shutdown()
         {
+            consoInputContent.CloseRead();
             TaskCompletionSource.Cancel();
             await endTask;
         }
@@ -79,6 +81,7 @@ namespace StuRemotePty
                           while (await client.ResponseStream.MoveNext())
                           {
                               var data = client.ResponseStream.Current;
+
                               Console.Write(data.Content);
                           }
                       });
@@ -98,9 +101,6 @@ namespace StuRemotePty
                 Console.WriteLine("will reconnect");
             }
         }
-
-
-
+       
     }
-
 }

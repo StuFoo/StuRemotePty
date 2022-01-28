@@ -10,5 +10,6 @@ namespace StuRemotePty.Client
     {
         int Init();
         char Read();
+        int CloseRead();
     }
 }

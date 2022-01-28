@@ -17,7 +17,11 @@ namespace StuRemotePty.Client
         [DllImport(LibSystem)]
         static extern char ReadChar();
 
+        [DllImport(LibSystem)]
+        static extern int EndRead();
+
         public int Init() => InitRead();
         public char Read() => ReadChar();
+        public int CloseRead() => EndRead();
     }
 }

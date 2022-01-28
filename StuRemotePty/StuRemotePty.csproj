@@ -21,7 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Protobuf Include="Server\MessageDefine.proto" />
+		<Protobuf Include="Server\MessageDefine.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -36,6 +36,13 @@
 			<TargetPath>os64\%(FileName)%(Extension)</TargetPath>
 		</None>
 		<None Update="vs-pty\x64\winpty\**\*">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>%(FileName)%(Extension)</TargetPath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Client\libShowKey.so">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 			<TargetPath>%(FileName)%(Extension)</TargetPath>
 		</None>

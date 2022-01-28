@@ -20,13 +20,15 @@ namespace StuRemotePty.Client
         IntPtr _handle;
         private const int BufferSize = 1;
 
+        Kernel32.CONSOLE_INPUT_MODE oldMode;
+
         public int Init()
         {
             handle = Kernel32.GetStdHandle(Kernel32.StdHandleType.STD_INPUT_HANDLE);
 
             if (!Kernel32.GetConsoleMode(handle, out Kernel32.CONSOLE_INPUT_MODE mode))
                 throw Marshal.GetExceptionForHR(MakeHRFromErrorCode(Marshal.GetLastWin32Error())) ?? new Exception("GetConsoleMode error");
-
+            oldMode = mode;
             mode |= Kernel32.CONSOLE_INPUT_MODE.ENABLE_WINDOW_INPUT;
             mode |= Kernel32.CONSOLE_INPUT_MODE.ENABLE_VIRTUAL_TERMINAL_INPUT;
             mode &= ~Kernel32.CONSOLE_INPUT_MODE.ENABLE_ECHO_INPUT;
@@ -37,7 +39,23 @@ namespace StuRemotePty.Client
 
             _handle = handle.DangerousGetHandle();
 
+            SetVirtualTerminalProcessing();
             return 0;
+        }
+
+        //返回的会附带颜色等控制字符 将为 VT100 和类似控制字符序列分析字符，这些字符序列可控制光标移动、颜色/字体模式以及其他也可通过现有控制台 API 执行的操作。
+        private void SetVirtualTerminalProcessing()
+        {
+            HFILE handle;
+            handle = Kernel32.GetStdHandle(Kernel32.StdHandleType.STD_OUTPUT_HANDLE);
+
+            if (!Kernel32.GetConsoleMode(handle, out Kernel32.CONSOLE_OUTPUT_MODE mode))
+                return;
+            mode |= Kernel32.CONSOLE_OUTPUT_MODE.ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+
+            if (!Kernel32.SetConsoleMode(handle, mode))
+                return;
+
         }
 
 
@@ -84,6 +102,15 @@ namespace StuRemotePty.Client
                     }
                 }
             }
+        }
+
+
+        public int CloseRead()
+        {
+            if (!Kernel32.SetConsoleMode(handle, oldMode))
+                throw Marshal.GetExceptionForHR(MakeHRFromErrorCode(Marshal.GetLastWin32Error())) ?? new Exception("SetConsoleMode error");
+
+            return 0;
         }
     }
 }
